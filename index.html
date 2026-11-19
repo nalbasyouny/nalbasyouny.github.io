@@ -2591,6 +2591,29 @@ var FL = {
         } catch (x) { say("pad.nosave", true); }
       });
     }
+    /* A hidden multipart form posts the message and the drawing together; the answer can't be read cross-site, so the page load counts as sent. */
+    function viaForm(url, fields, file, ok, fail) {
+      var id = "pf" + Date.now(), ifr, f, sent = false, done = false, timer;
+      function end(good) {
+        if (done) return; done = true; clearTimeout(timer);
+        setTimeout(function () { try { ifr.remove(); f.remove(); } catch (e) {} }, 500);
+        (good ? ok : fail)();
+      }
+      try {
+        ifr = document.createElement("iframe"); ifr.name = id; ifr.setAttribute("aria-hidden", "true"); ifr.tabIndex = -1; ifr.style.cssText = "display:none";
+        f = document.createElement("form"); f.method = "POST"; f.action = url; f.enctype = "multipart/form-data"; f.target = id; f.acceptCharset = "UTF-8"; f.style.display = "none";
+        Object.keys(fields).forEach(function (k) { var i = document.createElement("input"); i.type = "hidden"; i.name = k; i.value = fields[k]; f.appendChild(i); });
+        if (file) {
+          var fi = document.createElement("input"); fi.type = "file"; fi.name = "attachment";
+          var dt = new DataTransfer(); dt.items.add(new File([file], "doodle-for-nada.png", { type: "image/png" })); fi.files = dt.files; f.appendChild(fi);
+        }
+        document.body.appendChild(ifr); document.body.appendChild(f);
+        ifr.addEventListener("load", function () { if (sent) end(true); });
+        ifr.addEventListener("error", function () { end(false); });
+        timer = setTimeout(function () { end(false); }, 30000);
+        sent = true; f.submit();
+      } catch (e) { end(false); }
+    }
     btn.addEventListener("click", function () {
       var who = nm.value.trim(), words = ms.value.trim();
       if (!pdrew && !words) { say("pad.empty", false); return; }
@@ -2598,13 +2621,10 @@ var FL = {
       var body = tr("pad.body") + "\n\n" + (words ? words + "\n\n" : "") + (who ? "- " + who : "");
       blob(function (b) {
         if (!pdrew) b = null;
-        if (SEND_URL && window.fetch) {
-          var fd = new FormData();
-          fd.append("name", who); fd.append("message", words); fd.append("_subject", sub); fd.append("_captcha", "false"); fd.append("_template", "table");
-          if (b) fd.append("attachment", b, "doodle-for-nada.png");
-          fetch(SEND_URL, { method: "POST", body: fd, headers: { Accept: "application/json" } })
-            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false || j.success === "false" || j.ok === false) throw 0; say("pad.sent", false); }); })
-            .catch(function () { fallbackSave(b, sub, body); });
+        if (SEND_URL) {
+          viaForm(SEND_URL, { name: who, message: words, _subject: sub, _captcha: "false", _template: "table" }, b,
+            function () { say("pad.sent", false); },
+            function () { fallbackSave(b, sub, body); });
         } else fallbackSave(b, sub, body);
       });
     });
