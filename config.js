@@ -1,4 +1,3 @@
-/* Site settings. Paste your form endpoint between the quotes to get doodles by email, e.g.
-   window.SITE_CONFIG = { sendUrl: "https://formspree.io/f/xxxxxxxx" };
-   Leave it empty and visitors get the "save the doodle, then email it" fallback. */
-window.SITE_CONFIG = { sendUrl: "" };
+/* Site settings. The doodle form sends its message and drawing to Nada's email through FormSubmit (free, no account).
+   The first message after setup asks Nada to confirm the address once by email. */
+window.SITE_CONFIG = { sendUrl: "https://formsubmit.co/ajax/nalbasyouny@gmail.com" };

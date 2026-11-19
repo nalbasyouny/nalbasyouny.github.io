@@ -2600,10 +2600,10 @@ var FL = {
         if (!pdrew) b = null;
         if (SEND_URL && window.fetch) {
           var fd = new FormData();
-          fd.append("name", who); fd.append("message", words); fd.append("_subject", sub);
+          fd.append("name", who); fd.append("message", words); fd.append("_subject", sub); fd.append("_captcha", "false"); fd.append("_template", "table");
           if (b) fd.append("attachment", b, "doodle-for-nada.png");
           fetch(SEND_URL, { method: "POST", body: fd, headers: { Accept: "application/json" } })
-            .then(function (r) { if (!r.ok) throw 0; say("pad.sent", false); })
+            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === false || j.success === "false" || j.ok === false) throw 0; say("pad.sent", false); }); })
             .catch(function () { fallbackSave(b, sub, body); });
         } else fallbackSave(b, sub, body);
       });
