@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nalbasyouny.github.io/sitemap.xml
