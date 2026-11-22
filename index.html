@@ -370,6 +370,8 @@ a { color: inherit; }
 .gallery figure { margin: 0; border-radius: 20px; overflow: hidden; background: var(--work-card); border: 1px solid var(--line); }
 .gallery img { width: 100%; display: block; }
 .gallery .wide { grid-column: 1 / -1; }
+.gallery.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 720px) { .gallery.g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .d-nav { display: flex; justify-content: space-between; gap: 14px; margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line); flex-wrap: wrap; }
 .d-nav a { text-decoration: none; padding: 16px 20px; border-radius: 18px; background: var(--work-card); border: 1px solid var(--line); min-width: 0; flex: 1 1 240px; transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s; }
 .d-nav a:hover { transform: translateY(-4px); border-color: var(--lav-deep); }
@@ -2225,12 +2227,18 @@ var FL = {
       overview: "WEIRDO is a personal lettering project. I took one word and drew it again and again: as a road sign, a ticket, a passport, a certificate, a speech bubble. The word stays the same; the object around it changes the joke. The identity grew out of the posters themselves: chunky marker letters with a sand-coloured offset shadow, three colours (paper, sand and burgundy), a small kit of hand-drawn doodles, and Ooboo, a three-legged creature who lives in the margins of my sketchbook.",
       role: "Concept, hand lettering & identity", toolsLabel: "Tools", tools: ["Illustrator", "Figma"],
       deliver: ["Nine posters, 900 × 1200", "Wordmark and two secondary marks", "Colour palette and typography", "Doodle kit and pattern", "Mascot and short story", "Applications: stickers, tote bag, business card"],
-      pdfs: [{ f: "pdf/WEIRDO-Visual-Identity.pdf" }],
-      gallery: G([["weirdo-1", 1], ["weirdo-2", 1], ["weirdo-3", 1], ["weirdo-4", 1], ["weirdo-5", 1], ["weirdo-6", 1]]),
+      sections: [
+        { id: "identity", t: "Identity", d: "The full case study: the idea, Ooboo's story, the logo, colour, type, doodle kit and pattern, and the identity in use on stickers, a tote bag and a business card.", pdf: "pdf/WEIRDO-Visual-Identity.pdf", gallery: G([["weirdo-1", 1], ["weirdo-2", 1], ["weirdo-3", 1], ["weirdo-4", 1], ["weirdo-5", 1], ["weirdo-6", 1]]) },
+        { id: "posters", t: "Posters", d: "The nine posters on their own, each 900 × 1200: the same word as a message, a line, a stack, a member card, a road sign, a speech bubble, a passport, a certificate and a ticket.", cols: 3, gallery: G([["weirdo-p1", 0], ["weirdo-p2", 0], ["weirdo-p3", 0], ["weirdo-p4", 0], ["weirdo-p5", 0], ["weirdo-p6", 0], ["weirdo-p7", 0], ["weirdo-p8", 0], ["weirdo-p9", 0]]) }
+      ],
       ar: {
         m: "سلسلة بوسترات بخط اليد وهوية بصرية", short: "كلمة واحدة مرسومة بتسع طرق: سلسلة بوسترات بخط اليد مع هويتها الخاصة.",
         hover: "تسعة بوسترات، ومجموعة رسومات، وشخصية اسمها Ooboo، والهوية قيد الاستخدام.",
         overview: "WEIRDO مشروع شخصي في رسم الحروف. أخذت كلمة واحدة ورسمتها مرة بعد مرة: كإشارة طريق، وتذكرة، وجواز سفر، وشهادة، وفقاعة كلام. الكلمة تبقى نفسها، والشيء الذي يحملها هو الذي يغيّر النكتة. وُلدت الهوية من البوسترات نفسها: حروف ماركر عريضة بظل بلون الرمل، وثلاثة ألوان (الورق والرمل والبرغندي)، ومجموعة صغيرة من الرسومات اليدوية، وOoboo، كائن بثلاث أرجل يعيش في هوامش دفتر رسمي.",
+        sections: [
+          { t: "الهوية", d: "دراسة الحالة كاملة: الفكرة، وقصة Ooboo، والشعار، والألوان، والخطوط، ومجموعة الرسومات والنقشة، والهوية على الستيكرات وحقيبة القماش وبطاقة الأعمال." },
+          { t: "البوسترات", d: "البوسترات التسعة لوحدها، كل واحد بمقاس 900 × 1200: نفس الكلمة كرسالة، وسطر، وأحرف متراصة، وبطاقة عضوية، وإشارة طريق، وفقاعة كلام، وجواز سفر، وشهادة، وتذكرة." }
+        ],
         role: "الفكرة ورسم الحروف والهوية", toolsLabel: "الأدوات", tools: ["Illustrator", "Figma"],
         deliver: ["تسعة بوسترات بمقاس 900 × 1200", "الشعار النصي وعلامتان ثانويتان", "لوحة الألوان والخطوط", "مجموعة الرسومات والنقشة", "الشخصية وقصة قصيرة", "التطبيقات: ستيكرات، حقيبة قماش، بطاقة أعمال"]
       }
@@ -2322,9 +2330,9 @@ var FL = {
         .catch(function (err) { if (!err || err.code !== "declined") open(); });
     });
   });
-  var curSec = 0, ALIAS = { "forever21-plan": ["forever21", 1], "forever21-ads": ["forever21", 2] };
-  function galleryHTML(list, alt) {
-    return list && list.length ? '<div class="gallery">' + list.map(function (g) {
+  var curSec = 0, ALIAS = { "forever21-plan": ["forever21", 1], "forever21-ads": ["forever21", 2], "weirdo-posters": ["weirdo", 1] };
+  function galleryHTML(list, alt, cols) {
+    return list && list.length ? '<div class="gallery' + (cols === 3 ? " g3" : "") + '">' + list.map(function (g) {
       return '<figure class="' + (g.wide ? "wide" : "") + '"><img src="' + g.src + '" alt="' + alt + '" loading="lazy" decoding="async"></figure>';
     }).join("") + "</div>" : "";
   }
@@ -2343,7 +2351,7 @@ var FL = {
   }
   function panelHTML(i, k) {
     var sc = secsOf(i)[k], t = L(projects[i]);
-    return '<p class="d-sec-d">' + sc.d + "</p>" + filesHTML([{ f: sc.pdf }]) + galleryHTML(sc.gallery, t.t + ", " + sc.t);
+    return '<p class="d-sec-d">' + sc.d + "</p>" + (sc.pdf ? filesHTML([{ f: sc.pdf }]) : "") + galleryHTML(sc.gallery, t.t + ", " + sc.t, sc.cols);
   }
   function renderDetail(i) {
     curDetail = i;
