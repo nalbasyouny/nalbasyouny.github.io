@@ -2057,12 +2057,18 @@ var FL = {
       overview: "Doki is a kids’ clothing store, and the identity is built around a curious rabbit who peeks over signs, bags and screens. The logo is a bubbly wordmark whose “o” wears the rabbit’s ears, and the letters bounce a few degrees so the name always looks like it is playing. The rabbit has big eyes and tilted ears and no mouth at all, because the eyes do all the talking. Everything is documented in a 10-page brand guideline so the shop can stay consistent on its sign, bags, social media and print.",
       role: "Brand identity designer", toolsLabel: "Format", tools: ["Brand guidelines", "Mascot", "Social templates"],
       deliver: ["Logo and colour variations", "Rabbit mascot with usage rules", "Palette: Doki Red, Carrot, Sunny, Bubblegum, Sky", "Typography: Bagel Fat One and Fredoka", "Shapes and repeat patterns", "Shop sign and shopping bags", "Social media templates and highlight covers", "Print and digital applications"],
-      pdfs: [{ f: "pdf/Doki-Brand-Guidelines.pdf", n: "Brand guidelines", na: "دليل الهوية" }, { f: "pdf/Doki-Kids-Board.pdf", n: "Kids board", na: "لوحة الأطفال" }],
-      gallery: G([["doki-2", 1], ["doki-3", 1], ["doki-4", 1], ["doki-5", 1], ["doki-6", 1], ["doki-7", 1], ["doki-8", 1], ["doki-9", 1], ["doki-10", 1]]),
+      sections: [
+        { id: "guidelines", t: "Brand guidelines", d: "The full ten-page guideline: the logo and its colour versions, the rabbit and how to use him, the palette, type, shapes and patterns, then the shop sign, shopping bags, social templates and print pieces.", pdf: "pdf/Doki-Brand-Guidelines.pdf", gallery: G([["doki-2", 1], ["doki-3", 1], ["doki-4", 1], ["doki-5", 1], ["doki-6", 1], ["doki-7", 1], ["doki-8", 1], ["doki-9", 1], ["doki-10", 1]]) },
+        { id: "kids-board", t: "Kids board", d: "A one-page brand board that puts the whole identity together at a glance: the logo, the palette with its codes, the rabbit peeking in, and the identity on a poster, an app screen and a gift card.", pdf: "pdf/Doki-Kids-Board.pdf", gallery: G([["doki-kids-2", 1], ["doki-kids-3", 0], ["doki-kids-4", 0], ["doki-kids-1", 0]]) }
+      ],
       ar: {
         m: "هوية بصرية, ملابس أطفال", short: "هوية مرحة لمتجر ملابس أطفال، مبنية حول أرنب فضولي.",
         hover: "شعار مرح، شخصية أرنب، ودليل هوية من 10 صفحات.",
         overview: "Doki متجر ملابس أطفال، والهوية مبنية حول أرنب فضولي يطلّ من فوق اللافتات والأكياس والشاشات. الشعار كلمة مرحة بحرف o يلبس أذني الأرنب، وحروفه مائلة قليلاً كأن الاسم يلعب. للأرنب عيون كبيرة وأذنان مائلتان بلا فم، لأن العيون تقول كل شيء. وُثّق كل ذلك في دليل هوية من 10 صفحات ليبقى المتجر متناسقاً على اللافتة والأكياس والسوشيال ميديا والمطبوعات.",
+        sections: [
+          { t: "دليل الهوية", d: "دليل الهوية كاملاً في عشر صفحات: الشعار ونسخ ألوانه، والأرنب وطريقة استخدامه، والألوان والخطوط والأشكال والأنماط، ثم لافتة المتجر وأكياس التسوق وقوالب السوشيال ميديا والمطبوعات." },
+          { t: "لوحة الأطفال", d: "لوحة هوية في صفحة واحدة تجمع الهوية كلها بنظرة: الشعار، والألوان بأكوادها، والأرنب وهو يطلّ، والهوية على بوستر وشاشة تطبيق وبطاقة هدية." }
+        ],
         role: "مصممة هوية بصرية", toolsLabel: "الصيغة", tools: ["دليل هوية", "شخصية الأرنب", "قوالب سوشيال ميديا"],
         deliver: ["الشعار ونسخ الألوان", "شخصية الأرنب مع قواعد الاستخدام", "لوحة الألوان", "الخطوط: Bagel Fat One وFredoka", "الأشكال والأنماط المتكررة", "لافتة المتجر وأكياس التسوق", "قوالب السوشيال ميديا وأغلفة الهايلايت", "التطبيقات المطبوعة والرقمية"]
       }
@@ -2330,7 +2336,7 @@ var FL = {
         .catch(function (err) { if (!err || err.code !== "declined") open(); });
     });
   });
-  var curSec = 0, ALIAS = { "forever21-plan": ["forever21", 1], "forever21-ads": ["forever21", 2], "weirdo-posters": ["weirdo", 1] };
+  var curSec = 0, ALIAS = { "forever21-plan": ["forever21", 1], "forever21-ads": ["forever21", 2], "weirdo-posters": ["weirdo", 1], "doki-kids-board": ["doki-brand", 1] };
   function galleryHTML(list, alt, cols) {
     return list && list.length ? '<div class="gallery' + (cols === 3 ? " g3" : "") + '">' + list.map(function (g) {
       return '<figure class="' + (g.wide ? "wide" : "") + '"><img src="' + g.src + '" alt="' + alt + '" loading="lazy" decoding="async"></figure>';
