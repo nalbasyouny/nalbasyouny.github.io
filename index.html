@@ -528,8 +528,8 @@ a { color: inherit; }
 .ch-tabs .d-tab { flex: 1 1 0; text-align: center; white-space: nowrap; }
 .ch-panel { display: grid; gap: 12px; }
 .ch-panel[hidden] { display: none; }
-.ch-panel.swap { animation: chIn .3s var(--ease-out); }
-@keyframes chIn { from { opacity: 0; transform: translateY(8px); } }
+.ch-panel.swap { animation: chPanelIn .3s var(--ease-out); }
+@keyframes chPanelIn { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) { .ch-panel.swap { animation: none; } }
 .channels .channel {
   --tint: #efe8ff; --ink: #6a45c9;
